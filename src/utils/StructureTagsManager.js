@@ -1,9 +1,5 @@
-// Цей файл відповідає за управління структурними тегами коду,
-// що включає в себе логіку для ідентифікації та класифікації різних частин аналізованого коду.
 import { inputCode } from "./input_code.js";
 
-// Розбиває вхідний код на окремі рядки та ініціалізує
-// базову структуру для подальшого аналізу та візуалізації.
 function initializeStructureInfo() {
   let codeLines = inputCode.split("\n");
   return {
@@ -20,12 +16,8 @@ function initializeStructureInfo() {
   };
 }
 
-// codeStructureInfo зберігає інформацію про всі рядки коду,
-// а також про основні та підпорядковані блоки, ідентифіковані під час аналізу.
 let codeStructureInfo = initializeStructureInfo();
 
-// Додає блок інформації до визначеного рядка коду.
-// 'node' представляє собою вузол AST, з якого витягується інформація.
 function addRowBlock(node, endColumn = node.loc.end.column) {
   const startLine = node?.loc.start.line - 1;
   if (codeStructureInfo.rows[startLine]) {
@@ -38,8 +30,6 @@ function addRowBlock(node, endColumn = node.loc.end.column) {
   }
 }
 
-// Додає підблок до структури візуалізації коду.
-// Підблоки використовуються для представлення вкладених структур коду,
 function addSubBlock(startLine, endLine) {
   codeStructureInfo.subBlocks.push({
     startLine,
@@ -47,7 +37,6 @@ function addSubBlock(startLine, endLine) {
   });
 }
 
-// Функція для додавання основного блоку до структури
 function addMainBlock(startLine, endLine, node, key = null) {
   let id = codeStructureInfo.mainBlocks.length - 1;
   let lastMain = codeStructureInfo.mainBlocks[id];
@@ -58,7 +47,6 @@ function addMainBlock(startLine, endLine, node, key = null) {
   }
 
   if (nodeType === "CatchClause") {
-    console.log("TTT >>>");
     return;
   }
 

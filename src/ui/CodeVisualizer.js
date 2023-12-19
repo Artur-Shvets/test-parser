@@ -1,7 +1,3 @@
-// CodeVisualizer.js
-// Цей файл відповідає за генерацію HTML-представлення вхідного коду.
-// Він використовує структурну інформацію, отриману після аналізу AST,
-// для створення візуальної репрезентації коду.
 import { codeStructureInfo } from "../utils/StructureTagsManager.js";
 
 function createItemTags() {
@@ -22,8 +18,6 @@ function createItemTags() {
   codeStructureInfo.codeLines = newCodeLines;
 }
 
-// Функція для створення HTML-тегів для кожного рядка коду.
-// Використовує інформацію з codeStructureInfo для визначення структури коду.
 function createRowTags() {
   let updatedCodeLines = codeStructureInfo.rows.map((row) => {
     let content;
@@ -44,7 +38,6 @@ function createRowTags() {
       } else {
         content = "'>" + row.content;
       }
-      // console.log("content", content);
       newRowContent = `<div class='row-block ${row.type}${content} </div>`;
     } else {
       newRowContent = "<br>";
@@ -55,16 +48,12 @@ function createRowTags() {
   codeStructureInfo.codeLines = updatedCodeLines;
 }
 
-// Створює HTML-теги для підблоків коду.
-// Підблоки використовуються для відображення вкладених структур,
-// таких як тіла циклів, умовних операторів тощо.
 function createSubBlockTags() {
   let updatedCodeLines = [...codeStructureInfo.codeLines];
   codeStructureInfo.subBlocks.forEach((block) => {
     updatedCodeLines[block.startLine] = `<div class='sub-block'>${
       updatedCodeLines[block.startLine]
     }`;
-    //  SUBBLOCK LINES BUG FIX
     if (block.endLine - 2 < updatedCodeLines.length) {
       updatedCodeLines[block.endLine - 2] = `${
         updatedCodeLines[block.endLine - 2]
@@ -74,8 +63,6 @@ function createSubBlockTags() {
   codeStructureInfo.codeLines = updatedCodeLines;
 }
 
-// Створює HTML-теги для основних блоків коду.
-// Основні блоки можуть включати функції, класи та інші вищі структурні елементи.
 function createMainBlockTags() {
   let updatedCodeLines = [...codeStructureInfo.codeLines];
   codeStructureInfo.mainBlocks.forEach((mainBlock) => {
@@ -93,8 +80,6 @@ function createMainBlockTags() {
   codeStructureInfo.codeLines = updatedCodeLines;
 }
 
-// Основна функція для генерації HTML-представлення вхідного коду.
-// Використовує результати аналізу коду для створення детальної візуалізації.
 export function createStructureTags() {
   createItemTags();
   createRowTags();
